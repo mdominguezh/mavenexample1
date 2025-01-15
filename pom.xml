@@ -23,10 +23,10 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>${maven.compiler.compilerVersion}</version>
+                <version>11.0.15</version>
                 <configuration>
-                    <source>${maven.compiler.source}</source>
-                    <target>${maven.compiler.target}</target>
+                    <source>11.0.15</source>
+                    <target>11.0.15</target>
                 </configuration>
             </plugin>
         </plugins>
