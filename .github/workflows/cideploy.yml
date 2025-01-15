@@ -1,0 +1,44 @@
+name: deploymaven1
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    types: [opened, reopened]
+jobs:
+    build:
+      runs-on: ubuntu-latest
+      steps:
+        - name: Checkout sources
+          uses: actions/checkout@v3
+  
+        - name: Check versions
+          run: |
+            mvn -v
+            java --version
+  #          ls -lhA ~/.m2 
+  
+        - name: Set up JDK 11
+          uses: actions/setup-java@v3
+          with:
+            java-version: '11.0.15'
+            distribution: 'adopt'
+        - name: Setup Maven Action
+          uses: s4u/setup-maven-action@v1.7.0
+          with:
+            checkout-fetch-depth: 0
+            java-version: 11.0.5
+            java-distribution: adopt
+            maven-version: 3.6.0
+        - name: Check versions again
+          run: |
+            mvn -v
+            java --version
+        - uses: actions/cache@v3
+          with:
+            path: ~/.m2/repository
+            key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+            restore-keys: |
+              ${{ runner.os }}-maven-
+        - name: Build application
+          run: mvn clean package --also-make --batch-mode
